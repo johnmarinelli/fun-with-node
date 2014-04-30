@@ -2,13 +2,11 @@ doctype html
 html(lang="en")
   head
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
-    script(type='text/javascript').
-      function handleZip(){
-        console.log($('input[name=zip]').val());
-        return $('input[name=zip]').val();	
-      }
+    script(src='/static/util.js')
   body
-    h1 Enter in a zip code
-  form 
-    input(type='text', name='zip')
-    button(type='submit', onclick='handleZip()' value='submit')
+    h1 #{weather.loc}
+    p  #{weather.cond}
+    hr
+    h1 Stocks for Yahoo
+    p  #{stock.high}
+    p  #{stock.low}
