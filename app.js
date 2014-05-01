@@ -30,26 +30,6 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-var http = require('http');
-var express = require('express');
-var jade = require('jade');
-var YQL = require('yql');
-var mysql = require('mysql');
-
-/*
-*  express configurations
-*/
-var app = express();
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-
-var config = {
-        "USER" : "",
-        "PASS" : "",
-        "HOST" : "",
-        "PORT" : "",
-        "DATABASE" : "",
-};
 
 /*
 *  connect to mysql table
