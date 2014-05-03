@@ -3,6 +3,8 @@ var express = require('express');
 var jade = require('jade');
 var mysql = require('mysql');
 var utility = require('utility');
+var querystring = require('querystring');
+var util = require('util');
 
 /*
 *  express configurations
@@ -33,20 +35,39 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-var weatherInfo = utility.weatherQuery(94089);
-var stockInfo = utility.stockQuery('yhoo');
+var weatherInfo;
+var weatherLocationZip = 94089;
+
+var stockInfo;
+var stockSymbol = 'yhoo';
 
 /*
 *  routing
 */
 app.get('/', function(req, res){
-    res.render('index', { weather: {loc: weatherInfo.loc, cond: weatherInfo.cond}, stock: {high: stockInfo.dayHigh, low: stockInfo.dayLow} });
+	utility.bigQuery(weatherLocationZip, stockSymbol, function(err, weatherdata, stockdata){
+		if(err) throw err;
+		weatherInfo = weatherdata;
+		stockInfo = stockdata;
+		
+	    res.render('index', { weather: {loc: weatherInfo.loc, cond: weatherInfo.cond}, stock: {company: stockInfo.company, high: stockInfo.dayHigh, low: stockInfo.dayLow} });
+	});
 });
 
 app.post('/getinput', function(req, res){
-	console.log(req);
-	console.log(req.body.weather);
-	res.send(req.body.weather);
+	var chunk = '';
+	req.on('data', function(data){
+		chunk += data;
+	});
+	req.on('end', function(){
+		if(utility.validateInput(querystring.parse(chunk)) === true){
+			weatherLocationZip = parseInt(querystring.parse(chunk).weather);
+            stockSymbol = querystring.parse(chunk).stocks;
+			res.redirect('/');	
+		}
+		else{
+		}
+	});
 });
 
 app.use(function(err, req, res, next){

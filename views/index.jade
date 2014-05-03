@@ -6,15 +6,22 @@ html(lang="en")
     form(action='http://127.0.0.1:1337/getinput' method='post')
       #location
         label Sunnyvale, CA
-        input(type='radio' name='weather' value='94089')#weatheroption
+          input(type='radio' name='weather' value='94089' checked='true')#weatheroption
         label Cupertino, CA
-        input(type='radio' name='weather' value='95014')#weatheroption
+          input(type='radio' name='weather' value='95014')#weatheroption
+
+      #company
+        label Yahoo!
+          input(type='radio' name='stocks' value='yhoo' checked='true')#stockoption
+        label Apple
+          input(type='radio' name='stocks' value='aapl')#stockoption
+        
         input(type='submit')
 
     h1 #{weather.loc}
     p  #{weather.cond}
  
     hr
-    h1 Stocks for Yahoo
+    h1 Stocks for #{stock.company}
     p  #{stock.high}
     p  #{stock.low}
