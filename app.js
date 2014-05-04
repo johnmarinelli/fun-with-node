@@ -50,7 +50,7 @@ app.get('/', function(req, res){
 		weatherInfo = weatherdata;
 		stockInfo = stockdata;
 		
-	    res.render('index', { weather: {loc: weatherInfo.loc, cond: weatherInfo.cond}, stock: {company: stockInfo.company, high: stockInfo.dayHigh, low: stockInfo.dayLow} });
+	    res.render('index', { weather: {loc: weatherInfo.loc, cond: weatherInfo.cond}, stock: {company: stockInfo.company, high: stockInfo.dayHigh, low: stockInfo.dayLow}, json: {weather: JSON.stringify([84, 39, 29, 19]), stock: JSON.stringify([1.29, 3.30, 4.20, 6.66])} });
 	});
 });
 
