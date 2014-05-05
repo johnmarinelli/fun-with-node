@@ -7,8 +7,10 @@ html(lang="en")
       var ctx;
   
       $(function(){
-        var weatherArray = JSON.parse($('#jsonweather').text());
-        var stockArray = JSON.parse($('#jsonstock').text());
+        var weatherText = !{JSON.stringify(json.weather)};
+        var stockText = !{JSON.stringify(json.stock)};
+        var weatherArray = JSON.parse(stockText);
+        var stockArray = JSON.parse(weatherText);
         ctx = $('#myChart').get(0).getContext('2d');
 
         var data = {
@@ -54,5 +56,3 @@ html(lang="en")
 
     canvas#myChart(width='400' height='400')
 
-    div#jsonweather #{json.weather}
-    div#jsonstock #{json.stock}

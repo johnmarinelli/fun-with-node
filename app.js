@@ -41,16 +41,43 @@ var weatherLocationZip = 94089;
 var stockInfo;
 var stockSymbol = 'yhoo';
 
+var stockQueryString = 'SELECT dayhigh FROM weatherstockapptable WHERE (company="' + stockSymbol.toUpperCase() + '")';
+
+var weatherQueryString = 'SELECT temperature FROM weatherstockapptable WHERE (zip=' + weatherLocationZip +')';
+
 /*
 *  routing
 */
 app.get('/', function(req, res){
-	utility.bigQuery(weatherLocationZip, stockSymbol, function(err, weatherdata, stockdata){
+	var weatherData = [];
+	var stockData = [];
+
+	//retrieve info from our database
+	//send json objects to client	
+	connection.query(weatherQueryString, function(err, rows, fields){
 		if(err) throw err;
-		weatherInfo = weatherdata;
-		stockInfo = stockdata;
-		
-	    res.render('index', { weather: {loc: weatherInfo.loc, cond: weatherInfo.cond}, stock: {company: stockInfo.company, high: stockInfo.dayHigh, low: stockInfo.dayLow}, json: {weather: JSON.stringify([84, 39, 29, 19]), stock: JSON.stringify([1.29, 3.30, 4.20, 6.66])} });
+
+		for(var r in rows){
+			console.log(rows[r].temperature);
+			weatherData.push(rows[r].temperature);
+		}	
+
+		connection.query(stockQueryString, function(err, rows, fields){
+			if(err) throw err;
+	
+			for(var r in rows){
+				console.log(rows[r].dayhigh);
+				stockData.push(rows[r].dayhigh);
+			}
+
+			console.log(weatherData);
+			console.log(stockData);
+	
+			res.render('index', { weather: {loc: weatherLocationZip, cond: ''},
+							      stock:   {company: stockSymbol, high: '', low: ''},
+							      json:    {weather: JSON.stringify(weatherData), stock: JSON.stringify(stockData)}
+					  });	
+		});
 	});
 });
 
