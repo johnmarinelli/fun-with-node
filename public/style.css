@@ -1,0 +1,44 @@
+.container{
+	text-align: center;
+}
+
+.main-content{
+	margin-top: 10vh;
+}
+
+.form-header{
+	font-weight: 2.5em;
+	font-color: rgba(200, 200, 200, .9);
+}
+
+.gradient{
+	background-color: white;
+	background-image: linear-gradient(rgb(255, 255, 255,), rgb(220, 220, 220));
+
+	background: white;
+	background: linear-gradient(rgb(255, 255, 255), rgb(220, 220, 220));
+}
+
+.footer{
+	font-size: .75em;
+	line-height: .9;
+}
+
+ul.nav.navbar-nav{
+	color: rgba(255, 255, 255, .7);
+	font-size: 2.3em;
+}
+
+a{
+	color: rgba(255, 255, 255, .7);
+}
+
+a:hover{
+	color: rgba(255, 255, 255, 1);
+	text-decoration: none;
+}
+
+label{
+	display: block;
+}
+

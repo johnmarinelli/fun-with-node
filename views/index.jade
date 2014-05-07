@@ -5,7 +5,11 @@ html(lang="en")
     script(src='http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js')
     script(type='text/javascript').
       var ctx;
-  
+ 
+      function showAbout(){
+           alert("This is my first nodejs app.  It uses npm-yql to get data using Yahoo Query Language, npm-mysql to store data in my database, Chart.js to make pretty graphs, and the Express framework.  The server has a cron job that runs a script every day to pull all the data.  It was fun to make :\)");
+      } 
+
       $(function(){
         var weatherText = !{JSON.stringify(json.weather)};
         var stockText = !{JSON.stringify(json.stock)};
@@ -16,9 +20,9 @@ html(lang="en")
         var data = {
                      labels: stockArray,
                      datasets: [{
-                                     fillColor: 'rgba(220, 220, 220, .05)',
+                                     fillColor: 'rgba(40, 40, 40, .05)',
                                      strokeColor: 'rgba(220, 220, 220, 1)',
-                                     pointColor: 'rgba(220, 220, 220, 1)',
+                                     pointColor: 'rgba(20, 20, 20, 1)',
                                      pointStrokeColor: '#fff',
                                      data: weatherArray
                                  }]
@@ -26,33 +30,59 @@ html(lang="en")
         var newChart = new Chart(ctx).Line(data);
         console.log(weatherArray);
         console.log(stockArray);
+
+        $('.about').click(function(){
+          showAbout();
+        });
       });
 
-      
 
-  body
-    form(action='http://127.0.0.1:1337/getinput' method='post')
-      #location
-        label Sunnyvale, CA
-          input(type='radio' name='weather' value='94089' checked='true')#weatheroption
-        label Cupertino, CA
-          input(type='radio' name='weather' value='95014')#weatheroption
+  link(rel='stylesheet', href='bootstrap.min.css') 
+  link(rel='stylesheet', href='style.css')       
+  
+  body.gradient
+    .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(data-target=".navbar-collapse" data-toggle="collapse" type="button")
+          a(class="navbar-brand" href="#") The best weather-stock comparer ever
+        .collapse.navbar-collapse
+             ul.nav.navbar-nav
+               li 
+               a.about(href="#") About
+    
+    .container.main-content
 
-      #company
-        label Yahoo!
-          input(type='radio' name='stocks' value='yhoo' checked='true')#stockoption
-        label Apple
-          input(type='radio' name='stocks' value='aapl')#stockoption
+      h1 Showing stock information for '#{stock.company}' and weather from #{weather.loc}
+
+      hr
+      .col-md-3
+        form(action='http://127.0.0.1:1337/getinput' method='post')
+          .form-header Location
+            label Sunnyvale, CA
+              input(type='radio' name='weather' value='94089' checked='true')#weatheroption
+            label Cupertino, CA
+              input(type='radio' name='weather' value='95014')#weatheroption
+            label Mountain View, CA
+              input(type='radio' name='weather' value='94043')#weatheroption
+
+          hr
+
+          .form-header Company
+            label Yahoo!
+              input(type='radio' name='stocks' value='yhoo' checked='true')#stockoption
+            label Apple
+              input(type='radio' name='stocks' value='aapl')#stockoption
+            label Google
+              input(type='radio' name='stocks' value='goog')#stockoption
         
-        input(type='submit')
+          input(type='submit')
 
-    h1 #{weather.loc}
-    p  #{weather.cond}
- 
-    hr
-    h1 Stocks for #{stock.company}
-    p  #{stock.high}
-    p  #{stock.low}
+      .col-md-9
+        canvas#myChart(width='500px', height='400px')
 
-    canvas#myChart(width='400' height='400')
+      .footer Made by 
+        a(href="www.marinelliworks.com") John Marinelli
+      .footer Powered with 
+        a(href="nodejs.org") nodejs
 
